@@ -1,3 +1,16 @@
+# Keywords
+
+1. Shipping :- Shipping is the process of physically moving the product from the seller’s location to the customer’s address. 
+
+If Order = business contract,
+then Shipping = real-world execution of that contract.
+
+
+
+
+=====================================
+
+
 how an order is created
 
 how it connects to every other component
