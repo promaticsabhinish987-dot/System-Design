@@ -224,3 +224,6 @@ order.printSummary();
                     +----------------------+
 
 ```
+
+
+Order will be same but status will be object inside order object, which will have only limited method like pay() and cancel() after creation.
