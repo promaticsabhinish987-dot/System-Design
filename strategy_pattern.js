@@ -144,3 +144,44 @@ console.log("===========================================\n");
         Card     UPI     COD
 
  */
+
+
+const express = require("express");
+const router = express.Router();
+
+const PaymentService = require("../strategies/PaymentService");
+const CreditCardPayment = require("../strategies/CreditCardPayment");
+const UpiPayment = require("../strategies/UpiPayment");
+const CODPayment = require("../strategies/CODPayment");
+
+// POST /payment
+router.post("/", (req, res) => {
+  try {
+    const { method, amount, cardNumber, holderName, upiId } = req.body;
+
+    let strategy;
+
+    switch (method) {
+      case "CARD":
+        strategy = new CreditCardPayment(cardNumber, holderName);
+        break;
+      case "UPI":
+        strategy = new UpiPayment(upiId);
+        break;
+      case "COD":
+        strategy = new CODPayment();
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid payment method" });
+    }
+
+    const paymentService = new PaymentService(strategy);
+    const result = paymentService.processPayment(amount);
+
+    res.json({ message: "Payment processed successfully", result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
